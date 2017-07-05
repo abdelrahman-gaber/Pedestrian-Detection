@@ -1,0 +1,129 @@
+#!/bin/sh
+
+#OAR -p gpu='YES' and cluster='dellt630gpu'
+#OAR -l /gpunum=1,walltime=3
+#OAR --name ETHZtesting
+
+
+module load cuda/7.5
+module load cudnn/5.1-cuda-7.5
+module load anaconda
+module load opencv2.4.13
+
+# BAHNHOF
+dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/
+save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/
+
+# The following finds all the leaf folders in the dataset path and stores them in an array
+data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# Now we iterate through all the image folders
+for folder in "${data_folders[@]}"
+do
+    source_folder=$folder
+    save_folder=$save_path/${folder#${dataset_path}}
+    # Create the folder if one does not exist already
+    mkdir -p $save_folder
+    python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0 
+    # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+    chmod -R 770 $save_folder 
+done
+
+
+# # CROSSING
+# set_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/CROSSING
+# save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/CROSSING
+
+# # The following finds all the leaf folders in the dataset path and stores them in an array
+# data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# # Now we iterate through all the image folders
+# for folder in "${data_folders[@]}"
+# do
+#     source_folder=$folder
+#     save_folder=$save_path/${folder#${dataset_path}}
+#     # Create the folder if one does not exist already
+#     mkdir -p $save_folder
+#     python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0
+#     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+#     chmod -R 770 $save_folder
+# done
+
+# # JELMOLI
+# set_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/JELMOLI
+# save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/JELMOLI
+
+# # The following finds all the leaf folders in the dataset path and stores them in an array
+# data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# # Now we iterate through all the image folders
+# for folder in "${data_folders[@]}"
+# do
+#     source_folder=$folder
+#     save_folder=$save_path/${folder#${dataset_path}}
+#     # Create the folder if one does not exist already
+#     mkdir -p $save_folder
+#     python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0
+#     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+#     chmod -R 770 $save_folder
+# done
+
+# # LINTHESCHER
+# set_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/LINTHESCHER
+# save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/LINTHESCHER
+
+# # The following finds all the leaf folders in the dataset path and stores them in an array
+# data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# # Now we iterate through all the image folders
+# for folder in "${data_folders[@]}"
+# do
+#     source_folder=$folder
+#     save_folder=$save_path/${folder#${dataset_path}}
+#     # Create the folder if one does not exist already
+#     mkdir -p $save_folder
+#     python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0
+#     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+#     chmod -R 770 $save_folder
+# done
+
+
+# # LOEWENPLATZ
+# set_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/LOEWENPLATZ
+# save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/LOEWENPLATZ
+
+# # The following finds all the leaf folders in the dataset path and stores them in an array
+# data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# # Now we iterate through all the image folders
+# for folder in "${data_folders[@]}"
+# do
+#     source_folder=$folder
+#     save_folder=$save_path/${folder#${dataset_path}}
+#     # Create the folder if one does not exist already
+#     mkdir -p $save_folder
+#     python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0
+#     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+#     chmod -R 770 $save_folder
+# done
+
+
+# # SUNNY-DAY
+# set_path=/data/stars/user/aabubakr/pd_datasets/datasets/ETHZ/SUNNY-DAY
+# save_path=/data/stars/user/aabubakr/pd_datasets/outputs/ETHZ/SUNNY-DAY
+
+# # The following finds all the leaf folders in the dataset path and stores them in an array
+# data_folders=( $(find $dataset_path -type d -mindepth 1 -links 3) )
+
+# # Now we iterate through all the image folders
+# for folder in "${data_folders[@]}"
+# do
+#     source_folder=$folder
+#     save_folder=$save_path/${folder#${dataset_path}}
+#     # Create the folder if one does not exist already
+#     mkdir -p $save_folder
+#     python /data/stars/share/py-faster-rcnn/tools/pd_code.py --source $source_folder --save $save_folder --thresh 0.0
+#     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
+#     chmod -R 770 $save_folder
+# done
+
