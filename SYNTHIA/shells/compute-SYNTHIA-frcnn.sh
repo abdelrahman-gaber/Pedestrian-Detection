@@ -1,7 +1,7 @@
 #!/bin/bash
 #OAR -p gpu='YES' and host='nefgpu10.inria.fr' and cluster='dellt630gpu'
-#OAR -l /gpunum=1, walltime=130 
-#OAR --name GS-PANKitTesting
+#OAR -l /gpunum=1, walltime=160 
+#OAR --name SYNTHIA-Testing
 
 
 module load cuda/7.5
@@ -9,8 +9,8 @@ module load cudnn/5.1-cuda-7.5
 module load anaconda
 module load opencv2.4.13
 
-dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/GS-PANKIT/images
-save_path=/data/stars/user/aabubakr/pd_datasets/outputs/GS-PANKit
+dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/RGB
+save_path=/data/stars/user/aabubakr/pd_datasets/outputs/SYNTHIA
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )
