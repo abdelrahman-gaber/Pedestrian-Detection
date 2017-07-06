@@ -1,6 +1,6 @@
 #!/bin/bash
 #OAR -p gpu='YES' and host='nefgpu10.inria.fr' and cluster='dellt630gpu'
-#OAR -l /gpunum=1, walltime=130 
+#OAR -l /gpunum=1, walltime=10 
 #OAR --name GS-PANKitTesting
 
 
