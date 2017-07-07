@@ -55,7 +55,8 @@ if __name__ == "__main__":
 					y_max = int(b[3])
 				
 					cv2.rectangle(img, (x_min, y_min), (x_max, y_max), (0,255,0), 2)
-					cv2.imwrite(out_path, img)
+			
+			cv2.imwrite(out_path, img)
 					
 
 

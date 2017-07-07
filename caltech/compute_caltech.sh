@@ -1,6 +1,6 @@
 #!/bin/bash
 #OAR -p gpu='YES' and host='nefgpu10.inria.fr' and cluster='dellt630gpu'
-#OAR -l /gpunum=1,walltime=10 
+#OAR -l /gpunum=1,walltime=100 
 #OAR --name CaltechTesting
 
 
@@ -9,8 +9,8 @@ module load cudnn/5.1-cuda-7.5
 module load anaconda
 module load opencv2.4.13
 
-dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/caltech/images/images
-save_path=/data/stars/user/aabubakr/pd_datasets/outputs/caltech
+dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/caltech/annot-images/images
+save_path=/data/stars/user/aabubakr/pd_datasets/outputs/caltech/out-skip30
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )
