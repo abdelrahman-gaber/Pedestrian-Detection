@@ -41,5 +41,5 @@ if __name__ == "__main__":
 	plt.ylabel('Miss Rate')
         #plt.xscale('log')
 	plt.xscale('log')
-	#plt.yscale('log')
+	plt.yscale('log')
 	plt.show()

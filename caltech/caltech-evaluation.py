@@ -16,7 +16,7 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	FP = 0.0
 	indexes = []
 	for row in res:
-		bb = np.asarray([row[0], row[1], row[2], row[3]])
+		bb = np.asarray([row[0], row[1], row[0]+row[2], row[1]+row[3]])
 		prob = row[4]
 		det, idx = OverlapArea(bb, igt)
 		#indexes.append(idx)
@@ -43,7 +43,7 @@ def ReadAnnotationFiles(filename):
 	for l in lines[1:]:
 		values = l.split(" ")
 		class_label =  values[0]
-		if class_label == 'person': # only person not people
+		if class_label == 'person': # only person not people or person?
 			annotations.append( [float(i) for i in values[1:12]])
 		#labels.append(values[0])
 	return np.asarray(annotations) 
