@@ -64,91 +64,87 @@ def Generate_bbox_rg(seg_array):
 			break
 			#return -1
 	
-		list_person_row = []
-		list_person_col = []
-		list_final_row = []
-		list_final_col = []
+		list_person = []
+		list_final = []
 		min_row = np.argmin(person_label_idx, axis = 0) [0]
 		seed_idx = person_label_idx[min_row] # minimum index
 		#print(seed_idx)
-
-		#list_final_row.append(seed_idx[0])
-		#list_final_col.append(seed_idx[1]) 
-		list_person_row.append(seed_idx[0])
-		list_person_col.append(seed_idx[1])
+ 
+		list_person.append([seed_idx[0], seed_idx[1]])
 		
-		while list_person_row: # while the list is not empty
-			current_row = list_person_row[0]
-			current_col = list_person_col[0]
-			list_final_row.append(current_row)
-			list_final_col.append(current_col)
-			seg_array[current_row][current_col] = -1
-			#print(list_person_row)
-			del list_person_row[0]
-			del list_person_col[0]
+		while list_person: # while the list is not empty
+			current = list_person[0]
+			#print(current)
+			#current[1] = list_person_col[0]
+			list_final.append(current)
+			#list_final_col.append(current[1])
+			seg_array[current[0]][current[1]] = -1
 			
-			if not (current_row-1 >= 0 and current_col-1 >= 0 and current_row+1 < row_max_size and current_col+1 < col_max_size ):
+			del list_person[0]
+			#del list_person_col[0]
+			
+			if not (current[0]-1 >= 0 and current[1]-1 >= 0 and current[0]+1 < row_max_size and current[1]+1 < col_max_size ):
 				continue
 			# check neighbors of current pixels
-			if seg_array[current_row-1][current_col-1] == 10 and not (current_row-1 in list_person_row) and not (current_col-1 in list_person_col):
-				list_person_row.append(current_row-1)
-				list_person_col.append(current_col-1)
-				list_final_row.append(current_row-1)
-				list_final_col.append(current_col-1)	
+			if seg_array[current[0]-1][current[1]-1] == 10 and not ( [current[0]-1, current[1]-1] in list_person):
+				list_person.append([current[0]-1, current[1]-1 ])
+				#list_person_col.append(current[1]-1)
+				list_final.append([current[0]-1, current[1]-1])
+				#list_final_col.append(current[1]-1)	
 
-			if seg_array[current_row-1][current_col] == 10 and not (current_row-1 in list_person_row) and not (current_col in list_person_col):
-				list_person_row.append(current_row-1)
-				list_person_col.append(current_col)
-				list_final_row.append(current_row-1)
-				list_final_col.append(current_col)
+			if seg_array[current[0]-1][current[1]] == 10 and not ([current[0]-1, current[1]] in list_person):
+				list_person.append([current[0]-1, current[1]])
+				list_final.append([current[0]-1, current[1]])
+				#list_final_col.append(current[1])
 
-			if seg_array[current_row-1][current_col+1] == 10 and not (current_row-1 in list_person_row) and not (current_col+1 in list_person_col):
-				list_person_row.append(current_row-1)
-				list_person_col.append(current_col+1)
-				list_final_row.append(current_row-1)
-				list_final_col.append(current_col+1)
+			if seg_array[current[0]-1][current[1]+1] == 10 and not ([current[0]-1, current[1]+1] in list_person):
+				list_person.append([current[0]-1, current[1]+1])
+				#list_person_col.append(current[1]+1)
+				list_final.append([current[0]-1, current[1]+1])
+				#list_final_col.append(current[1]+1)
 
-			if seg_array[current_row][current_col-1] == 10 and not (current_row in list_person_row) and not (current_col-1 in list_person_col):
-				list_person_row.append(current_row)
-				list_person_col.append(current_col-1)
-				list_final_row.append(current_row)
-				list_final_col.append(current_col-1)
+			if seg_array[current[0]][current[1]-1] == 10 and not ([current[0], current[1]-1] in list_person):
+				list_person.append([current[0], current[1]-1])
+				#list_person_col.append(current[1]-1)
+				list_final.append([current[0], current[1]-1 ])
+				#list_final_col.append(current[1]-1)
 
-			if seg_array[current_row][current_col+1] == 10 and not (current_row in list_person_row) and not (current_col+1 in list_person_col):
-				list_person_row.append(current_row)
-				list_person_col.append(current_col+1)
-				list_final_row.append(current_row)
-				list_final_col.append(current_col+1)
+			if seg_array[current[0]][current[1]+1] == 10 and not ([current[0] , current[1]+1] in list_person):
+				list_person.append([current[0], current[1]+1])
+				#list_person.append(current[1]+1)
+				list_final.append([current[0], current[1]+1])
+				#list_final_col.append(current[1]+1)
+			#print(current[0]+1 , current[1]-1) 
+			#print(list_person)
+			if seg_array[current[0]+1][current[1]-1] == 10 and not ([current[0]+1, current[1]-1] in list_person):
+				list_person.append([current[0]+1, current[1]-1])
+				#list_person_col.append(current[1]-1)
+				list_final.append([current[0]+1, current[1]-1])
+				#list_final_col.append(current[1]-1)
 
-			if seg_array[current_row+1][current_col-1] == 10 and not (current_row+1 in list_person_row) and not (current_col-1 in list_person_col):
-				list_person_row.append(current_row+1)
-				list_person_col.append(current_col-1)
-				list_final_row.append(current_row+1)
-				list_final_col.append(current_col-1)
+			if seg_array[current[0]+1][current[1]] == 10 and not ([current[0]+1, current[1]] in list_person):
+				list_person.append([current[0]+1, current[1]])
+				#list_person_col.append(current[1])
+				list_final.append([current[0]+1, current[1]])
+				#list_final_col.append(current[1])
 
-			if seg_array[current_row+1][current_col] == 10 and not (current_row+1 in list_person_row) and not (current_col in list_person_col):
-				list_person_row.append(current_row+1)
-				list_person_col.append(current_col)
-				list_final_row.append(current_row+1)
-				list_final_col.append(current_col)
-
-			if seg_array[current_row+1][current_col+1] == 10 and not (current_row+1 in list_person_row) and not (current_col+1 in list_person_col):
-				list_person_row.append(current_row+1)
-				list_person_col.append(current_col+1)
-				list_final_row.append(current_row+1)
-				list_final_col.append(current_col+1)
+			if seg_array[current[0]+1][current[1]+1] == 10 and not ([current[0]+1, current[1]+1] in list_person):
+				list_person.append([current[0]+1, current[1]+1])
+				#list_person_col.append(current[1]+1)
+				list_final.append([current[0]+1, current[1]+1])
+				#list_final_col.append(current[1]+1)
 
 
 		# check list_final_* to find min-max row and col
-		min_row = np.min(list_final_row)
-		min_col = np.min(list_final_col)
-		max_row = np.max(list_final_row)
-		max_col = np.max(list_final_col)
+		min_row = np.min(list_final, axis = 0)[0]
+		min_col = np.min(list_final, axis = 0)[1]
+		max_row = np.max(list_final, axis = 0)[0]
+		max_col = np.max(list_final, axis = 0)[1]
 		
-		if (max_col - min_col > 30) and (max_row - min_row > 50):
+		if (max_col - min_col > 15) and (max_row - min_row > 30):
 			margin = 2	
 			annotations.append([min_col-margin, min_row-margin, max_col+margin,  max_row+margin])
-			print(annotations)
+			#print(annotations)
 
 	return annotations	
 
@@ -190,6 +186,7 @@ if __name__ == "__main__":
 			seg_array = ReadGTTXTFile(file_name)
 			annotation = Generate_bbox_rg(seg_array)
 			print(file_name)
+			print(annotation)
 			img_name = os.path.join(images_path, os.path.splitext(files.name)[0] + ".png")
 			im_path = os.path.join(output_path , 'visualization-images', os.path.splitext(files.name)[0] + ".png" )
 			out_path = os.path.join(output_path , 'annotations',os.path.splitext(files.name)[0] + ".txt" )
