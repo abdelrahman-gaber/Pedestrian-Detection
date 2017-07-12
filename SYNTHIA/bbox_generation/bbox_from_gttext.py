@@ -56,6 +56,8 @@ def Generate_bbox_rg(seg_array):
 	# seg_array is the original segmentation array read from the GTTXT files and converted to int
 	# person_label_idx = np.argwhere(seg_array == 10) # pedestrian label == 10
 	annotations = []
+	row_max_size, col_max_size = seg_array.shape
+
 	while(True):
 		person_label_idx = np.argwhere(seg_array == 10) # pedestrian label == 10
 		if not len(person_label_idx): # if list is empty
@@ -84,7 +86,9 @@ def Generate_bbox_rg(seg_array):
 			#print(list_person_row)
 			del list_person_row[0]
 			del list_person_col[0]
-
+			
+			if not (current_row-1 >= 0 and current_col-1 >= 0 and current_row+1 < row_max_size and current_col+1 < col_max_size ):
+				continue
 			# check neighbors of current pixels
 			if seg_array[current_row-1][current_col-1] == 10 and not (current_row-1 in list_person_row) and not (current_col-1 in list_person_col):
 				list_person_row.append(current_row-1)
@@ -141,7 +145,7 @@ def Generate_bbox_rg(seg_array):
 		max_row = np.max(list_final_row)
 		max_col = np.max(list_final_col)
 		
-		if (max_col - min_col > 30) or (max_row - min_row > 30):
+		if (max_col - min_col > 30) and (max_row - min_row > 50):
 			margin = 2	
 			annotations.append([min_col-margin, min_row-margin, max_col+margin,  max_row+margin])
 			print(annotations)
