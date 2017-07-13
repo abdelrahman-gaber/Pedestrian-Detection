@@ -52,7 +52,7 @@ def generate_bbox(seg_array):
 	return annotation
 
 def Generate_bbox_rg(seg_array):
-	print("Region Growing algorithm")
+	#print("Region Growing algorithm")
 	# seg_array is the original segmentation array read from the GTTXT files and converted to int
 	# person_label_idx = np.argwhere(seg_array == 10) # pedestrian label == 10
 	annotations = []
@@ -142,9 +142,9 @@ def Generate_bbox_rg(seg_array):
 		max_col = np.max(list_final, axis = 0)[1]
 		
 		if (max_col - min_col > 15) and (max_row - min_row > 30):
-			margin = 2	
+			margin = 1	
 			annotations.append([min_col-margin, min_row-margin, max_col+margin,  max_row+margin])
-			#print(annotations)
+		#print(annotations)
 
 	return annotations	
 
@@ -152,18 +152,7 @@ if __name__ == "__main__":
 	#file_name = "/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/GTTXT/ap_000_01-11-2015_19-20-57_000001_1_Rand_6.txt"
 	#img_name = "/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/GT/ap_000_01-11-2015_19-20-57_000001_1_Rand_6.png"
 	#file_name = "/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/GTTXT/ap_000_02-11-2015_18-02-19_000141_2_Rand_7.txt"
-	#img_name = "/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/GT/ap_000_02-11-2015_18-02-19_000141_2_Rand_7.png"
-
-	#seg_array = ReadGTTXTFile(file_name)
-	#annot = Generate_bbox_rg(seg_array)
-	#print(annot)
-	#img = cv2.imread(img_name)
-	#for ann in annot:
-		#img = cv2.imread(img_name)
-		#cv2.rectangle(img, (ann[0], ann[1]) , (ann[2], ann[3]), (0, 255, 0) , 2)
-
-	#cv2.imwrite("rg_res.png", img)
-	
+	#img_name = "/data/stars/user/aabubakr/pd_datasets/datasets/SYNTHIA/GT/ap_000_02-11-2015_18-02-19_000141_2_Rand_7.png"	
 		
 	parser = argparse.ArgumentParser()
 	
@@ -186,7 +175,7 @@ if __name__ == "__main__":
 			seg_array = ReadGTTXTFile(file_name)
 			annotation = Generate_bbox_rg(seg_array)
 			print(file_name)
-			print(annotation)
+			#print(annotation)
 			img_name = os.path.join(images_path, os.path.splitext(files.name)[0] + ".png")
 			im_path = os.path.join(output_path , 'visualization-images', os.path.splitext(files.name)[0] + ".png" )
 			out_path = os.path.join(output_path , 'annotations',os.path.splitext(files.name)[0] + ".txt" )
