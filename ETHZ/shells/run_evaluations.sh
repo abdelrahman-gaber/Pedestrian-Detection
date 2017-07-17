@@ -23,4 +23,4 @@ python plot-results.py -resfile "LINTHESCHER-out.txt"
 python plot-results.py -resfile "LOEWENPLATZ-out.txt"
 python plot-results.py -resfile "SUNNY-DAY-out.txt"
 
-
+python ../plot-results.py -resfile "../evaluation-results/seperate/BAHNHOF-out.txt"

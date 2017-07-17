@@ -112,7 +112,7 @@ if __name__ == "__main__":
 		output_file = args['output']
 	
 	f = open(output_file, "w")
-	step = 0.01
+	step = 0.005
 	ThreshRange = np.arange(0.0, 1.0 + step, step)
 	for Threshold in ThreshRange:
 		TPtot = 0.0
