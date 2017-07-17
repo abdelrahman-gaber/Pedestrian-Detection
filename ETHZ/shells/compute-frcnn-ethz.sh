@@ -1,8 +1,8 @@
 #!/bin/sh
 
 #OAR -p gpu='YES' and host='nefgpu10.inria.fr' and cluster='dellt630gpu'
-#OAR -l /gpunum=1,walltime=10
-#OAR --name ETHZtesting
+#OAR -l /gpunum=1,walltime=30
+#OAR --name ETHZtesting-new
 
 
 module load cuda/7.5
