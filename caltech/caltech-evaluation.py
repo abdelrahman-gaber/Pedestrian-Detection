@@ -33,6 +33,22 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	FN = np.shape(gt_unmatched)[0]
 	return TP, FP, FN
 
+def Intersection_percentage(boxA, boxB):
+	# determine the (x, y)-coordinates of the intersection rectangle
+	xA = max(boxA[0], boxB[0])
+	yA = max(boxA[1], boxB[1])
+	xB = min(boxA[2], boxB[2])
+	yB = min(boxA[3], boxB[3])
+ 
+	# compute the area of intersection rectangle
+	interArea = (xB - xA + 1) * (yB - yA + 1)
+	boxAArea = (boxA[2] - boxA[0] + 1) * (boxA[3] - boxA[1] + 1)
+
+	AreaPerc = interArea / boxAArea
+	
+	return AreaPerc;
+
+
 
 def ReadAnnotationFiles(filename):
 	annotations = []
@@ -41,10 +57,23 @@ def ReadAnnotationFiles(filename):
 	lines = f.read().splitlines()
 
 	for l in lines[1:]:
+		Accept_flag = False
 		values = l.split(" ")
 		class_label =  values[0]
-		if class_label == 'person': # only person not people or person?
-			annotations.append( [float(i) for i in values[1:12]])
+		val = [float(i) for i in values[1:12]]
+		if val[4] == 1.0:
+			box_all = [val[0], val[1], val[0]+val[2], val[1]+val[3] ]
+			box_occ = [val[5], val[6], val[5]+val[7] , val[6]+val[8]] # occlusion annotation
+			visible_region_percentage = Intersection_percentage(box_all, box_occ) # should be more than 65%
+			#print(visible_region_percentage)
+			#occ_percentage = 1 - visible_region_perecentage # should be less than 35%
+			if visible_region_percentage > 0.65:
+				Accept_flag = True
+		else:
+			Accept_flag = True
+			
+		if class_label == 'person' and val[3] > 50.0 and Accept_flag: # only person not people or person? AND > 50 pixels and occlusion condition
+			annotations.append( val )
 		#labels.append(values[0])
 	return np.asarray(annotations) 
 
