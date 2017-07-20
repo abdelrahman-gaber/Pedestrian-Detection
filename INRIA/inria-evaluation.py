@@ -19,16 +19,17 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
 		det, idx = OverlapArea(bb, igt)
-		#indexes.append(idx)
+		if idx == -1:
+                        continue
+
 		if (prob >= Thresh):
-			if det > 0.5:
-				TP += 1
+			if det >= 0.5:
+				TP += 1.0
 				indexes.append(idx)
 			else:
-				#if (prob > Thresh):
-				FP += 1
-				#indexes.append(idx)
-	#FN = NumGTWindows - (TP + FP)
+				FP += 1.0
+				indexes.append(idx)
+
 	gt_unmatched = np.delete(igt, indexes, axis = 0)
 	FN = np.shape(gt_unmatched)[0]
 	return TP, FP, FN
@@ -63,7 +64,7 @@ def ReadResultsFiles(filename):
 # output: area of overlap as stated in the paper (PASCAL measure)
 def OverlapArea(bb, bbgt):
 	ovmax = - 9999.9 # initialize by big -ve number
-	imax = 0
+	imax = -1
 
 	for i in range(bbgt.shape[0]):
 		# determine the (x, y)-coordinates of the intersection rectangle
@@ -112,7 +113,7 @@ if __name__ == "__main__":
 		output_file = args['output']
 	
 	f = open(output_file, "w")
-	step = 0.001
+	step = 0.01
 	ThreshRange = np.arange(0.0, 1.0 + step, step)
 	for Threshold in ThreshRange:
 		TPtot = 0.0
@@ -126,7 +127,7 @@ if __name__ == "__main__":
 				annfile = os.path.join(annotation_path, os.path.splitext(files.name)[0] +".png"+".txt")
 				#print(annfile)
 				TP, FP, FN = MainEvaluation(annfile, resfile, Threshold)
-				NumofImages += 1
+				NumofImages += 1.0
 				TPtot += TP
 				FPtot += FP
 				FNtot += FN
