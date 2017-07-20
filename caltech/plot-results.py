@@ -12,7 +12,7 @@ def PlotResults(filename):
 	f = open(filename)
 	lines = f.read().splitlines()
 
-	for l in lines[1:-2]:
+	for l in lines[1:-2]: #lines[1:-2]:
 		values = l.split(" ")
 		thresh.append(float(values[0]))
 		FPPI.append(float(values[1]))
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 	ax.set_yscale('log')
 	ax.set_xscale('log')
 	#ax.ticklabel_format(style = 'sci', useOffset=False)
-	ax.set_yticks([ .05, .10, .20, .30, .40, .50, .64 , .80, 1])
+	ax.set_yticks([.05, .10, .20, .30, .40, .50, .64 , .80, 1])
 	ax.yaxis.set_major_formatter(ticker.ScalarFormatter() )
 	ax.ticklabel_format(axis='y', style='plain', useOffset=False)
 

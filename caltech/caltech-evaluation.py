@@ -16,18 +16,20 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	FP = 0.0
 	indexes = []
 	for row in res:
-		bb = np.asarray([row[0], row[1], row[0]+row[2], row[1]+row[3]])
+		#bb = np.asarray([row[0], row[1], row[0]+row[2], row[1]+row[3]])
+		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
 		det, idx = OverlapArea(bb, igt)
+		if idx == -1:
+			continue
 		#indexes.append(idx)
 		if (prob >= Thresh):
-			if det > 0.5:
-				TP += 1
+			if det >= 0.5:
+				TP += 1.0
 				indexes.append(idx)
 			else:
-				#if (prob > Thresh):
-				FP += 1
-				#indexes.append(idx)
+				FP += 1.0
+				indexes.append(idx) # ###
 	#FN = NumGTWindows - (TP + FP)
 	gt_unmatched = np.delete(igt, indexes, axis = 0)
 	FN = np.shape(gt_unmatched)[0]
@@ -56,12 +58,12 @@ def ReadAnnotationFiles(filename):
 	f = open(filename)
 	lines = f.read().splitlines()
 
-	for l in lines[1:]:
+	for l in lines[1:]: # start from 1 because of the first unwanted line
 		Accept_flag = False
 		values = l.split(" ")
 		class_label =  values[0]
 		val = [float(i) for i in values[1:12]]
-		if val[4] == 1.0:
+		if val[4] == 1.0: # occlusion flag
 			box_all = [val[0], val[1], val[0]+val[2], val[1]+val[3] ]
 			box_occ = [val[5], val[6], val[5]+val[7] , val[6]+val[8]] # occlusion annotation
 			visible_region_percentage = Intersection_percentage(box_all, box_occ) # should be more than 65%
@@ -95,7 +97,7 @@ def ReadResultsFiles(filename):
 # output: area of overlap as stated in the paper (PASCAL measure)
 def OverlapArea(bb, bbgt):
 	ovmax = - 9999.9 # initialize by big -ve number
-	imax = 0
+	imax = -1 # 
 
 	for i in range(bbgt.shape[0]):
 		# determine the (x, y)-coordinates of the intersection rectangle
@@ -163,7 +165,7 @@ if __name__ == "__main__":
 						#print(annfile)
 						if os.path.isfile(annfile):
 							TP, FP, FN = MainEvaluation(annfile, resfile, Threshold)
-							NumofImages += 1
+							NumofImages += 1.0
 							TPtot += TP
 							FPtot += FP
 							FNtot += FN
