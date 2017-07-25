@@ -16,20 +16,22 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	FP = 0.0
 	indexes = []
 	for row in res:
-		#bb = np.asarray([row[0], row[1], row[0]+row[2], row[1]+row[3]])
 		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
-		det, idx = OverlapArea(bb, igt)
-		if idx == -1:
-			continue
-		#indexes.append(idx)
+		#det, idx = OverlapArea(bb, igt)
+		#if idx == -1:
+		#	continue
+		
 		if (prob >= Thresh):
+			det, idx = OverlapArea(bb, igt)
 			if det >= 0.5:
 				TP += 1.0
 				indexes.append(idx)
 			else:
 				FP += 1.0
-				indexes.append(idx) # ###
+				if idx != -1:
+                                        indexes.append(idx)
+					#indexes.append(idx) # ###
 	#FN = NumGTWindows - (TP + FP)
 	gt_unmatched = np.delete(igt, indexes, axis = 0)
 	FN = np.shape(gt_unmatched)[0]

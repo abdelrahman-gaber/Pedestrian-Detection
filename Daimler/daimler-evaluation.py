@@ -19,16 +19,18 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
 		det, idx = OverlapArea(bb, igt)
-		#indexes.append(idx)
+		#if idx == -1:
+                #        continue
+
 		if (prob >= Thresh):
-			if det > 0.5:
-				TP += 1
+			if det >= 0.5:
+				TP += 1.0
 				indexes.append(idx)
 			else:
-				#if (prob > Thresh):
-				FP += 1
-				#indexes.append(idx)
-	#FN = NumGTWindows - (TP + FP)
+				FP += 1.0
+				if idx != -1:
+					indexes.append(idx)
+
 	gt_unmatched = np.delete(igt, indexes, axis = 0)
 	FN = np.shape(gt_unmatched)[0]
 	return TP, FP, FN
@@ -63,7 +65,7 @@ def ReadResultsFiles(filename):
 # output: area of overlap as stated in the paper (PASCAL measure)
 def OverlapArea(bb, bbgt):
 	ovmax = - 9999.9 # initialize by big -ve number
-	imax = 0
+	imax = -1
 
 	for i in range(bbgt.shape[0]):
 		# determine the (x, y)-coordinates of the intersection rectangle
@@ -127,12 +129,12 @@ if __name__ == "__main__":
 				#print(annfile)
 				if os.path.isfile(annfile):
 					TP, FP, FN = MainEvaluation(annfile, resfile, Threshold)
-					NumofImages += 1
+					NumofImages += 1.0
 					TPtot += TP
 					FPtot += FP
 					FNtot += FN
-		FFPI = FPtot/NumofImages
+		FPPI = FPtot/NumofImages
 		MR = FNtot/(FNtot+TPtot)
-		print("Threshold= " + str(Threshold) + "  TP= " + str(TPtot) + "  FP= "+ str(FPtot) + "  FPPI= " + str(FPtot/NumofImages) + "  FN= " + str(FNtot) + "  Miss Rate= " + str(FNtot/(FNtot+TPtot)) )
+		print("Threshold= " + str(Threshold) + "  TP= " + str(TPtot) + "  FP= "+ str(FPtot) + "  FPPI= " + str(FPPI) + "  FN= " + str(FNtot) + "  Miss Rate= " + str(MR) )
 		#with open(output_file, "w") as f:
-		f.write(str(Threshold) + " " + str(FFPI) + " " + str(MR) + "\n")
+		f.write(str(Threshold) + " " + str(FPPI) + " " + str(MR) + "\n")

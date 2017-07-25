@@ -19,8 +19,8 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
 		det, idx = OverlapArea(bb, igt)
-		if idx == -1:
-                        continue
+		#if idx == -1:
+                #        continue
 
 		if (prob >= Thresh):
 			if det >= 0.5:
@@ -28,7 +28,9 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 				indexes.append(idx)
 			else:
 				FP += 1.0
-				indexes.append(idx)
+				if idx != -1:
+                                        indexes.append(idx)
+					#indexes.append(idx)
 
 	gt_unmatched = np.delete(igt, indexes, axis = 0)
 	FN = np.shape(gt_unmatched)[0]
@@ -126,13 +128,14 @@ if __name__ == "__main__":
 				#print(resfile)
 				annfile = os.path.join(annotation_path, os.path.splitext(files.name)[0] +".png"+".txt")
 				#print(annfile)
-				TP, FP, FN = MainEvaluation(annfile, resfile, Threshold)
-				NumofImages += 1.0
-				TPtot += TP
-				FPtot += FP
-				FNtot += FN
-		FFPI = FPtot/NumofImages
+				if os.path.isfile(annfile):
+					TP, FP, FN = MainEvaluation(annfile, resfile, Threshold)
+					NumofImages += 1.0
+					TPtot += TP
+					FPtot += FP
+					FNtot += FN
+		FPPI = FPtot/NumofImages
 		MR = FNtot/(FNtot+TPtot)
-		print("Threshold= " + str(Threshold) + "  TP= " + str(TPtot) + "  FP= "+ str(FPtot) + "  FPPI= " + str(FPtot/NumofImages) + "  FN= " + str(FNtot) + "  Miss Rate= " + str(FNtot/(FNtot+TPtot)) )
+		print("Threshold= " + str(Threshold) + "  TP= " + str(TPtot) + "  FP= "+ str(FPtot) + "  FPPI= " + str(FPPI) + "  FN= " + str(FNtot) + "  Miss Rate= " + str(MR) )
 		#with open(output_file, "w") as f:
-		f.write(str(Threshold) + " " + str(FFPI) + " " + str(MR) + "\n")
+		f.write(str(Threshold) + " " + str(FPPI) + " " + str(MR) + "\n")
