@@ -3,9 +3,6 @@ import os
 import math
 import argparse
 
-# loop for different thresholds
-# loop for all images, then:
-# read annotations and detection results
 # Evaluate the detection for each image 
 def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	igt= ReadAnnotationFiles(AnnotationFilesPath)
