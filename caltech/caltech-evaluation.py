@@ -6,12 +6,12 @@ import argparse
 # Evaluate the detection for each image 
 def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 	igt= ReadAnnotationFiles(AnnotationFilesPath)
-	NumGTWindows = np.shape(igt)[0]
+	#NumGTWindows = np.shape(igt)[0]
 	# Remember: last element of res is the probability
 	res = ReadResultsFiles(ResultsFilesPath)
 	TP = 0.0
 	FP = 0.0
-	indexes = []
+	#indexes = []
 	for row in res:
 		bb = np.asarray([row[0], row[1], row[2], row[3]])
 		prob = row[4]
@@ -23,15 +23,18 @@ def MainEvaluation(AnnotationFilesPath, ResultsFilesPath, Thresh):
 			det, idx = OverlapArea(bb, igt)
 			if det >= 0.5:
 				TP += 1.0
-				indexes.append(idx)
+				#indexes.append(idx)
+				igt = np.delete(igt, idx, axis=0)
 			else:
 				FP += 1.0
 				if idx != -1:
-                                        indexes.append(idx)
+					#indexes.append(idx)
+					igt = np.delete(igt, idx, axis=0)
 					#indexes.append(idx) # ###
 	#FN = NumGTWindows - (TP + FP)
-	gt_unmatched = np.delete(igt, indexes, axis = 0)
-	FN = np.shape(gt_unmatched)[0]
+	#gt_unmatched = np.delete(igt, indexes, axis = 0)
+	#FN = np.shape(gt_unmatched)[0]
+	FN = np.shape(igt)[0]
 	return TP, FP, FN
 
 def Intersection_percentage(boxA, boxB):
