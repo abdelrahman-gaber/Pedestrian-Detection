@@ -6,7 +6,7 @@ module load anaconda
 module load opencv2.4.13
 
 dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/caltech/annot-images/images
-save_path=/data/stars/user/aabubakr/pd_datasets/outputs/FRCNN-OUT/caltech
+save_path=/data/stars/user/aabubakr/pd_datasets/outputs/FRCNN-OUT/caltech/Thresh01
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )
@@ -18,7 +18,7 @@ do
     save_folder=$save_path/${folder#${dataset_path}}
     # Create the folder if one does not exist already
     mkdir -p $save_folder
-    python /data/stars/share/py-faster-rcnn/tools/pd_code_CalEval.py --source $source_folder --save $save_folder --thresh 0.0 
+    python /data/stars/share/py-faster-rcnn/tools/pd_code_CalEval.py --source $source_folder --save $save_folder --thresh 0.1
     # Give proper permissions so that we do not have to face any delays due to the permissions issue.
     chmod -R 770 $save_folder 
 done
