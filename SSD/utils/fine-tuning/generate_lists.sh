@@ -4,9 +4,13 @@
 #annot_path=/home/aabubakr/data/Caltech/annotations-train
 #res_file=/home/aabubakr/ssd-new/data/Caltech/train.txt
 
-dataset_path=/home/aabubakr/data/INRIAPerson/images-train
-annot_path=/home/aabubakr/data/INRIAPerson/annotations-train
-res_file=/home/aabubakr/ssd-new/data/INRIA/train.txt
+#dataset_path=/home/aabubakr/data/INRIAPerson/images-train
+#annot_path=/home/aabubakr/data/INRIAPerson/annotations-train
+#res_file=/home/aabubakr/ssd-new/data/INRIA/train.txt
+
+dataset_path=/home/aabubakr/data/ETHZ/images-train
+annot_path=/home/aabubakr/data/ETHZ/annotations-train
+res_file=/home/aabubakr/ssd-new/data/ETHZ/train.txt
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )

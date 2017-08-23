@@ -33,7 +33,7 @@ function [pth,setIds,vidIds,skip,ext] = dbInfo( name1 )
 
 persistent name; % cache last used name
 if(nargin && ~isempty(name1)), name=lower(name1); else
-  if(isempty(name)), name='daimler'; end; end; name1=name;
+  if(isempty(name)), name='tudbrussels'; end; end; name1=name;
 
 vidId=str2double(name1(end-2:end)); % check if name ends in 3 ints
 if(isnan(vidId)), vidId=[]; else name1=name1(1:end-3); end

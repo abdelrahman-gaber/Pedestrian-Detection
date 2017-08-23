@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		if files.is_file() and (files.name.endswith('.txt')):
 			#if files.is_file() and (files.name.endswith('.jpg') or files.name.endswith('.png') or files.name.endswith('.jpeg') or files.name.endswith('.pgm')) :
 			annot_full_path = os.path.join(annot_path_, files.name)
-			images_full_path = os.path.join(images_path_, os.path.splitext(files.name)[0] + ".png" )
+			images_full_path = os.path.join(images_path_, os.path.splitext(files.name)[0]) #+ ".png" )
 			#if (os.path.isfile(annot_full_path)):
 			f.write(str(images_full_path) + " " + str(annot_full_path) + "\n" )
 

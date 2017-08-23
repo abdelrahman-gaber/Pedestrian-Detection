@@ -11,8 +11,8 @@ do
   if [ $? -eq 0 ]
   then 
      echo "you can use the licence"
-     oarsub -S "$1"
-     echo "Job submitted !"
+     #oarsub -S "$1"
+     #echo "Job submitted !"
      #mail -s "NEF Job submitted" abdelrahman-gaber.abubakr@inria.fr <<< "Your jub $1 is submitted to NEF GUP .. good luck"
 
      break

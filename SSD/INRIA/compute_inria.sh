@@ -8,7 +8,7 @@ module load cudnn/5.1-cuda-8.0
 #module load caffe_priv/ssd
 
 dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/INRIA/annot-images-noskip-CaltechEval/images
-save_path=/data/stars/user/aabubakr/pd_datasets/outputs/SSD-OUT/INRIA/ft-inria
+save_path=/data/stars/user/aabubakr/pd_datasets/outputs/SSD-OUT/INRIA/SSD-ft-inria-250
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )
@@ -20,7 +20,7 @@ do
     save_folder=$save_path/${folder#${dataset_path}}
     # Create the folder if one does not exist already
     mkdir -p $save_folder
-  /home/aabubakr/ssd-new/build/examples/ssd/ssd_detect /home/aabubakr/ssd-new/models/VGGNet/VOC0712Plus/SSD_512x512_ft/deploy.prototxt /home/aabubakr/ssd-new/models/VGGNet/VOC0712Plus/VGG_VOC0712Plus_SSD_512x512_ft_iter_1349_inria.caffemodel $source_folder/images_list.txt --confidence_threshold 0.0 --out_file $save_folder/detections-preprocessed.txt
+  /home/aabubakr/ssd-new/build/examples/ssd/ssd_detect /home/aabubakr/ssd-new/models/VGGNet/VOC0712Plus/deploy.prototxt /home/aabubakr/ssd-new/models/VGGNet/VOC0712Plus/SSD_512x512_ft/VGG_VOC0712Plus_SSD_512x512_ft_iter_250.caffemodel $source_folder/images_list.txt --confidence_threshold 0.0 --out_file $save_folder/detections-preprocessed.txt
     
    python ../utils/parse-detection-files/image-list-seperate-CalEval.py -DetectionResultsPath $save_folder
 
@@ -28,6 +28,6 @@ do
     chmod -R 770 $save_folder 
 done
 
-cp -a $save_path /home/aabubakr/codes/pedestrian-detection-evaluation/CalEval-3.2.1/data-INRIA/res/SSD-ft-inria 
+cp -a $save_path /home/aabubakr/codes/pedestrian-detection-evaluation/CalEval-3.2.1/data-INRIA/res/
 
 
