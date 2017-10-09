@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 import os
 import argparse
+import scandir
+from scandir import scandir
 
 def ReadResultsFiles(filename):
 	results = []
@@ -36,7 +38,7 @@ if __name__ == "__main__":
 	#detection_csv= "/data/stars/user/aabubakr/pd_datasets/outputs/videos-ujjwal/vid08/thresh01/detection_csv"
 	#output_path = "/data/stars/user/aabubakr/pd_datasets/outputs/videos-ujjwal/vid08/thresh01/thresh_05"
 	
-	for files in os.scandir(detection_csv):
+	for files in scandir(detection_csv):
 		if files.is_file() and files.name.endswith('.csv'):
 			#im_path = os.path.join(images_path, image_name + ".jpg" )
 			csv_path = os.path.join(detection_csv, files.name )
@@ -54,7 +56,7 @@ if __name__ == "__main__":
 					x_max = int(b[2])
 					y_max = int(b[3])
 				
-					cv2.rectangle(img, (x_min, y_min), (x_max, y_max), (0,255,0), 2)
+					cv2.rectangle(img, (x_min, y_min), (x_max, y_max), (0,0,255), 2)
 			
 			cv2.imwrite(out_path, img)
 					

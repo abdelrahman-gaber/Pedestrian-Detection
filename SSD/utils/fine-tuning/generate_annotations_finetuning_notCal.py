@@ -43,17 +43,12 @@ if __name__ == "__main__":
 			out_file_full_path = os.path.join(out_path, files.name)
 
 			results = ReadAnnotFile(in_file_full_path)
-			#f = open(out_file_full_path, 'ab')
 			
-			#if labels.shape[0] == 0: # Background
-			#	continue
-			#	#det_person = np.atleast_2d( np.asarray([0 , Xmin, Ymin, Xmax, Ymax ] ) ) # [CLASS , DETS]
-			#	#np.savetxt(f, det_person, fmt=["%d",]*5 , delimiter="," )
-			#else:
 			f = open(out_file_full_path, 'ab')
 			for rs in results:
-				det_person = np.atleast_2d( np.asarray([15 , max(0, rs[0]), max(0, rs[1]), max(0, rs[2]) , max(0, rs[3]) ]) ) # [CLASS, DETS]		
-				np.savetxt(f, det_person, fmt=["%d",]*1+["%f",]*4 , delimiter=" " )
+				if ( rs[2] > rs[0] and rs[3] > rs[1] ):
+					det_person = np.atleast_2d( np.asarray([15 , max(0, rs[0]), max(0, rs[1]), max(0, rs[2]) , max(0, rs[3]) ]) ) # [CLASS, DETS]		
+					np.savetxt(f, det_person, fmt=["%d",]*1+["%f",]*4 , delimiter=" " )
 			f.close()
 
 

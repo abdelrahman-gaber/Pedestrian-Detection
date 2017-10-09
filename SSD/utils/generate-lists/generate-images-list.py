@@ -3,6 +3,8 @@ import os
 import math
 import argparse
 import glob
+import scandir
+from scandir import scandir
 
 if __name__ == "__main__":
 	
@@ -26,7 +28,7 @@ if __name__ == "__main__":
 		file_name = os.path.join(images_path, "images_list.txt")
 		f = open(file_name, "w")
 
-		for files in os.scandir(images_path):
+		for files in scandir(images_path):
 			if files.is_file() and (files.name.endswith('.jpg') or files.name.endswith('.png') or files.name.endswith('.jpeg') or files.name.endswith('.pgm')) :
 				images_full_path = os.path.join(images_path, files.name) 
 			

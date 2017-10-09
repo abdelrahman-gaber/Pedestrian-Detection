@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets
-dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/Daimler/CalEval/images
+#dataset_path=/data/stars/user/aabubakr/pd_datasets/datasets/Daimler/CalEval/images
+dataset_path=/home/aabubakr/data/Misc/images-HQ
 
 # The following finds all the leaf folders in the dataset path and stores them in an array
 data_folders=( $(find $dataset_path -type d -mindepth 1 -links 2) )

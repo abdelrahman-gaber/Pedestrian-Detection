@@ -39,20 +39,21 @@ if __name__ == "__main__":
 		image_pths, results = ReadDetectionFile(file_name)
 
 		#save_file_path = os.path.join(detection_path, 'detection_csv')
-		save_file_path = detection_path
-		#if not os.path.isdir(save_file_path):
-		#	os.makedirs(save_file_path)
+		save_file_path = detection_path + "/detection_csv"
+		if not os.path.isdir(save_file_path):
+			os.makedirs(save_file_path)
 	
 		for idx, im_pth in enumerate(image_pths):
 			im_name = os.path.basename(im_pth)
-			out_csv = os.path.join(save_file_path, os.path.splitext(im_name)[0] + ".txt" )
-		
+			out_csv = os.path.join(save_file_path, os.path.splitext(im_name)[0] + ".csv" )
+
+			f = open(out_csv, 'ab')
 			if results[idx, 0] == 15:
-				det_person =np.atleast_2d( np.asarray([ max(0,results[idx,2]), max(0,results[idx,3]), results[idx,4]-results[idx,2] , results[idx,5]-results[idx,3] , results[idx, 1] ]) ) # [detection prob]
+				det_person =np.atleast_2d( np.asarray([ abs(results[idx,2]), abs(results[idx,3]), abs(results[idx,4])  , abs(results[idx,5]) , results[idx, 1] ]) ) # [detection prob]
 				#print(det_person)
-				f = open(out_csv, 'ab')
+				#f = open(out_csv, 'ab')
 				np.savetxt(f, det_person, fmt=["%d",]*4 + ["%1.3f"], delimiter=",")
-				f.close
+			f.close
 				
 	else:
 		print("nothing to do here")

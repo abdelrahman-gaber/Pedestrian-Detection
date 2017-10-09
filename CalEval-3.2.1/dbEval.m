@@ -56,9 +56,11 @@ n=1000; clrs=zeros(n,3);
 for i=1:n, clrs(i,:)=max(.3,mod([78 121 42]*(i+1),255)/255); end
 algs = {
   'SSD',              0, clrs(66,:),  '-'
+  'SSD-ft-cal-fc2-40000', 0, clrs(74,:),  '-'
+  'SSD-ft-cal',       0, clrs(69,:),  '-'
+  'SSD-ft-cal-fc-34000', 0, clrs(73,:),  '-'
   'Faster-RCNN',      0, clrs(67,:),  '-'
   'RPN+BF',           0, clrs(58,:),  '-'
-  'SSD-ft-cal',       0, clrs(69,:),  '-'
   'SSD-ft-inria-250',   0, clrs(70,:),  '-'
   'Faster-RCNN01',    0, clrs(68,:),  '-'
   'VJ',               0, clrs(1,:),   '-'
@@ -138,9 +140,9 @@ dataNames = {'UsaTest','UsaTrain','InriaTest',...
   'TudBrussels','ETH','Daimler','Japan'};
 
 % select databases, experiments and algorithms for evaluation
-dataNames = dataNames(6); % select one or more databases for evaluation
+dataNames = dataNames(1); % select one or more databases for evaluation
 exps = exps(1); % reasonable  % select one or more experiment for evaluation
-algs = algs(1:2);           % select one or more algorithms for evaluation
+algs = algs(1:3);           % select one or more algorithms for evaluation
 
 % remaining parameters and constants
 aspectRatio = .41;        % default aspect ratio for all bbs

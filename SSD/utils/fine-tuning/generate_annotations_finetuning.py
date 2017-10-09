@@ -58,7 +58,7 @@ if __name__ == "__main__":
 			else:
 				f = open(out_file_full_path, 'ab')
 				for idx, nm in enumerate(labels):
-					det_person = np.atleast_2d( np.asarray([15 , max(0, results[idx,0]), max(0, results[idx,1]), max(0,results[idx,2]) + max(0,results[idx,0]), max(0,results[idx,3]) + max(0,results[idx,1]) ]) ) # [CLASS, DETS]		
+					det_person = np.atleast_2d( np.asarray([15 , max(0, results[idx,0]), max(0, results[idx,1]), min(639,  max(0,results[idx,2]) + max(0,results[idx,0])) , min(479, max(0,results[idx,3]) + max(0,results[idx,1]) ) ]) ) # [CLASS, DETS]		
 					np.savetxt(f, det_person, fmt=["%d",]*1+["%f",]*4 , delimiter=" " )
 				f.close()
 
